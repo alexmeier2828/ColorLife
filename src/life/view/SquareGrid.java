@@ -9,7 +9,9 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Color;
 import java.awt.Rectangle;
+import java.awt.Point;
 import javax.swing.JPanel;
+
 /**
  *
  * @author Am0718
@@ -53,6 +55,13 @@ public class SquareGrid {
                 
             }
         }
+    }
+    
+    public Point convertToGrid(Point p) {
+        Point gridP = new Point();
+        gridP.x = p.x / this.square_size;
+        gridP.y = p.y / this.square_size;
+        return gridP;
     }
 }
     

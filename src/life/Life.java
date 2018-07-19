@@ -28,7 +28,7 @@ public class Life{
         
         
         this.lifeGrid = new LifeGrid(grid_density_x, grid_density_y);
-        this.lifeGrid.randPopulate();
+        //this.lifeGrid.randPopulate();
         this.playfield = new Playfield(sx, sy, grid_density_x, grid_density_y, this.lifeGrid);
         this.sizeX = sx;
         this.sizeY = sy;

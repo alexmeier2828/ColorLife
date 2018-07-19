@@ -17,6 +17,7 @@ import javax.swing.JMenuItem;
 
 import life.simulation.LifeGrid;
 import life.controller.MenuController;
+import life.controller.MouseController;
 /**
  *
  * @author Am0718
@@ -57,8 +58,14 @@ public class Playfield{
         //Frame initiallization
         this.frame = new JFrame("life");
         this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.frame.setLayout(null);
-        this.frame.setSize(sizeX, sizeY);
+        //this.frame.setLayout();
+        
+        
+        
+        //initialize new MyPanel object and add it to frame
+        MyPanel myPanel = new MyPanel(this.size_x, this.size_y);
+        this.frame.getContentPane().add(myPanel);
+        
         
         //menu initiallization
         this.menuBar = new JMenuBar();
@@ -72,7 +79,9 @@ public class Playfield{
         this.simulationMenu.add(this.simulation_pause);
         this.simulationMenu.add(this.simulation_play);
         this.menuBar.add(this.simulationMenu);
-        this.frame.add(this.menuBar);
+        this.frame.setJMenuBar(this.menuBar);
+        
+        System.out.println(this.menuBar.getHeight());
         
         //actionlistener for menus
         MenuController menuCon = new MenuController(this);
@@ -81,12 +90,16 @@ public class Playfield{
         this.simulation_pause.addActionListener(menuCon);
         this.simulation_play.addActionListener(menuCon);
         
-        //initialize new MyPanel object and add it to frame
-        MyPanel myPanel = new MyPanel(size_x, size_y);
-        this.frame.add(myPanel);
-        this.frame.setJMenuBar(this.menuBar);
+        //mouse listener
+        MouseController mouseCon = new MouseController(this);
+        myPanel.addMouseListener(mouseCon);
+        System.out.println(myPanel.getBounds());
         
+        
+        this.frame.pack();
         this.frame.setVisible(true);
+        //this.frame.setResizable(false);
+        
         this.frame.validate();
         this.frame.repaint();
     }
@@ -98,6 +111,10 @@ public class Playfield{
     public LifeGrid getLifeGrid() {
         return this.lifeGrid;
         
+    }
+    
+    public SquareGrid getSquareGrid() {
+        return this.squareGrid;
     }
     
     public JMenuItem getMenuItem(menuItems item) {
@@ -129,6 +146,8 @@ public class Playfield{
         public MyPanel(int width, int height) {
             super();
             super.setSize(width, height);
+            super.setPreferredSize(new Dimension(width, height));
+            super.setMinimumSize(new Dimension(width, height));
         }
     
         @Override

@@ -35,6 +35,9 @@ public class LifeGrid {
         this.paused = flag;
     }
     
+    public void toggleCell(int x, int y) {
+        this.grid[x][y] = !this.grid[x][y];
+    }
     //populate grid with random status
     public void randPopulate() {
         Random rand = new Random();
