@@ -11,20 +11,20 @@ import java.util.Random;
  * @author Alex Meier
  */
 public class LifeGrid {
-    private boolean grid[][];
-    private static int size_x;
-    private static int size_y;
+    private int grid[][];
+    private final int size_x;
+    private final int size_y;
     private boolean paused;
     
     //constructor
     public LifeGrid(int width, int height) {
-        this.grid  = new boolean[width][height];
+        this.grid  = new int[width][height];
         this.paused = false;
         size_x = width;
         size_y = height;
     }
     
-    public boolean getCell(int x, int y) {
+    public int getCell(int x, int y) {
         return grid[x][y];
     }
     
@@ -36,7 +36,11 @@ public class LifeGrid {
     }
     
     public void toggleCell(int x, int y) {
-        this.grid[x][y] = !this.grid[x][y];
+        if(grid[x][y] == 0) {
+            grid[x][y] = 1;
+        } else {
+            grid[x][y] = 0;
+        }
     }
     //populate grid with random status
     public void randPopulate() {
@@ -46,7 +50,12 @@ public class LifeGrid {
         
         for(int x = 0; x < this.size_x; x++) {
             for(int y = 0; y < this.size_y; y++) {
-                this.grid[x][y] = rand.nextBoolean();
+                if(rand.nextBoolean()){
+                    this.grid[x][y] = 1;
+                } else {
+                    this.grid[x][y] = 0;
+                }
+                
             }
         }
         
@@ -54,26 +63,40 @@ public class LifeGrid {
     
     //populate with a single cell line across the center of the playfield
     public void linePopulate() {
-        boolean new_grid[][] = new boolean[this.size_x][this.size_y];
+        int new_grid[][] = new int[this.size_x][this.size_y];
         for(int x = 0; x < this.size_x; x++){
-            new_grid[x][this.size_y / 2] = true;
+            new_grid[x][this.size_y / 2] = 1;
         }
         this.grid = new_grid;
     }
     
     //advance the grid by 1 turn
     public void turn() {
-        boolean newGrid[][] = new boolean[this.size_x][this.size_y];
-        
+        int newGrid[][] = new int[this.size_x][this.size_y];
+        for(int x = 0; x < this.size_x; x++) {
+            for(int y = 0; y < this.size_y; y++) {
+                newGrid[x][y] = grid[x][y];
+            }
+        }
         //call is alive next turn for each cell;
         for(int x = 0; x < this.size_x; x++) {
             for(int y = 0; y < this.size_y; y++) {
-                newGrid[x][y] = this.isAliveNextTurn(x, y);  
+                if(this.isAliveNextTurn(x, y)){
+                    if(newGrid[x][y] < 9){
+                       newGrid[x][y]++; //increase age by 1                       newGrid[x][y]++; //increase age by 1 
+ 
+                    }
+                    
+                } else {
+                    newGrid[x][y] = 0; //reset to 0 (dead)
+                }
+                
             }
         }
         
         //replace grid with the updated newGrid
         this.grid = newGrid;
+        //System.out.println(grid);
     }
     
     //returns true if cell is alive next turn at the chordinates x,y.
@@ -82,16 +105,16 @@ public class LifeGrid {
        
         //just flip the values for now;
         int crowding = this.crowding(x, y);
-        if(this.grid[x][y])
+        if(this.grid[x][y] >= 1)
         {   
-            if(this.grid[x][y] && crowding > 1 && crowding(x, y) < 4)
+            if(crowding > 1 && crowding(x, y) < 4)
             {
                 return true;
             } else {
                 return false;
             }
         
-        } else if(!this.grid[x][y] && crowding == 3) {
+        } else if(this.grid[x][y] == 0 && crowding == 3) {
             return true;
         }
      return false;   
@@ -126,7 +149,7 @@ public class LifeGrid {
                     check_y = y + rad_y;
                 }
                 
-                if(this.grid[check_x][check_y])
+                if(this.grid[check_x][check_y] >= 1)
                 {
                     total++;
                 }
@@ -136,7 +159,7 @@ public class LifeGrid {
                 
         }
         //if cell is alive, we don't want to count the cell in total
-        if(grid[x][y]) {
+        if(grid[x][y] >= 1) {
             total--;
         }
         

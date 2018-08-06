@@ -22,6 +22,7 @@ public class SquareGrid {
     private final int size_y;
     private final int square_size;
     private final Rectangle[][] grid;
+    private ColorSet colorSet;
     
     public SquareGrid(int sizeX, int sizeY, int square_size) {
         this.size_x = sizeX;
@@ -36,6 +37,7 @@ public class SquareGrid {
             }
         }
         
+        colorSet = new ColorSet();
     }
     
     public void draw(Graphics2D g2d, LifeGrid lifeGrid) {
@@ -43,13 +45,7 @@ public class SquareGrid {
         for(int x = 0; x < size_x; x++) {
             for(int y = 0; y < size_y; y++) {
                 //set color
-                if(!lifeGrid.getCell(x, y))
-                {
-                    g2d.setColor(Color.WHITE);
-                } else {
-                    g2d.setColor(Color.BLACK);
-                }
-                
+                g2d.setColor(colorSet.getColor(lifeGrid.getCell(x, y)));
                 //draw each individual cell
                 g2d.fillRect((int)grid[x][y].getX(), (int)grid[x][y].getY(), this.square_size, this.square_size);
                 

@@ -19,6 +19,7 @@ public class Life{
     
     private Playfield playfield;
     private LifeGrid lifeGrid;
+    
     private int sizeX; //size of actual square window
     private int sizeY;
     private static final long STEP_TIME = 250;
