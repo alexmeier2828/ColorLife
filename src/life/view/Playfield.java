@@ -20,7 +20,7 @@ import life.controller.MenuController;
 import life.controller.MouseController;
 /**
  *
- * @author Am0718
+ * @author Alex Meier
  */
 public class Playfield{
     

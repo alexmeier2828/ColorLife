@@ -14,7 +14,7 @@ import javax.swing.JPanel;
 
 /**
  *
- * @author Am0718
+ * @author Alex Meier
  */
 public class SquareGrid {
     

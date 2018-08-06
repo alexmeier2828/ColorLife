@@ -11,7 +11,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 /**
  *
- * @author Am0718
+ * @author Alex Meier
  */
 public class MenuController implements ActionListener{
     private Playfield playfield;

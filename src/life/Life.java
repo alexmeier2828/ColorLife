@@ -7,7 +7,7 @@ package life;
 
 /**
  *
- * @author Am0718
+ * @author Alex Meier
  */
 
 import life.simulation.LifeGrid;
